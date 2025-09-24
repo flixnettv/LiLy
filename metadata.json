@@ -1,0 +1,5 @@
+{
+  "name": "Lily Label AI Designer",
+  "description": "An interactive web app for Lily Label that allows customers to design and order prints (stickers, notebooks, etc.). The app uses AI to suggest designs based on the user's name and provides a library of images and customization tools.",
+  "requestFramePermissions": []
+}

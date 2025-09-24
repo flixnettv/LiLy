@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lily Label - AI Design Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Cairo:wght@400;700;900&family=Roboto:wght@700&family=Lato:wght@700&family=Montserrat:wght@700&family=Oswald:wght@700&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+      body { font-family: 'Nunito', sans-serif; }
+      html[dir="rtl"] body { font-family: 'Cairo', sans-serif; }
+      [dir="rtl"] .rtl-icon-fix { transform: scaleX(-1); }
+      .error-toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%, 20px);
+        background-color: #dc2626;
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      .category-btn.active {
+        background-color: #58a6ff !important;
+        border-color: #79c0ff !important;
+        color: white !important;
+        transform: translateY(-4px);
+        box-shadow: 0 4px 10px rgba(88, 166, 255, 0.3);
+      }
+      
+      /* --- ANIMATIONS --- */
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+      .primary-btn:not(:disabled):active, .secondary-btn:not(:disabled):active {
+        animation: pulse 0.3s ease-in-out;
+      }
+
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes scaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+      @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+      @keyframes scaleOut { from { transform: scale(1); opacity: 1; } to { transform: scale(0.95); opacity: 0; } }
+
+      .animate-fade-in { animation: fadeIn 0.3s ease forwards; }
+      .animate-scale-in { animation: scaleIn 0.3s ease forwards; }
+      .animate-fade-out { animation: fadeOut 0.3s ease forwards; }
+      .animate-scale-out { animation: scaleOut 0.3s ease forwards; }
+
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-[#0d1117] text-[#c9d1d9] h-screen overflow-hidden antialiased">
+    
+    <!-- Start Screen -->
+    <div id="start-screen" class="flex flex-col items-center justify-center h-full text-center p-8 bg-[radial-gradient(circle,#1a2233_0%,#0d1117_70%)]">
+      <div class="max-w-xl">
+        <div class="flex items-center justify-center gap-3 mb-4">
+          <svg class="w-12 h-12 text-[#58a6ff]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C10.343 2 9 3.343 9 5V7H15V5C15 3.343 13.657 2 12 2Z" fill="currentColor"/>
+            <path d="M9 8C6.239 8 4 10.239 4 13V15C4 16.657 5.343 18 7 18H9V12C9 10.343 10.343 9 12 9C13.657 9 15 10.343 15 12V18H17C18.657 18 20 16.657 20 15V13C20 10.239 17.761 8 15 8H9Z" fill="currentColor"/>
+            <path d="M11 19V22H13V19H11Z" fill="currentColor"/>
+          </svg>
+          <h1 class="text-5xl font-black text-white">Lily Label</h1>
+        </div>
+        <h2 data-lang-key="startTitle" class="text-4xl font-extrabold mb-2 text-white/90"></h2>
+        <p data-lang-key="startSubtitle" class="text-lg text-gray-400 mb-8"></p>
+        <button id="start-design-btn" data-lang-key="startBtn" class="primary-btn text-lg px-8 py-3"></button>
+      </div>
+    </div>
+
+    <!-- Main Editor -->
+    <div id="main-editor" class="h-full flex-col hidden">
+      <!-- Header -->
+      <header class="flex items-center justify-between p-3 px-4 sm:px-6 bg-[#161b22] border-b border-[#30363d] shadow-md z-10 relative">
+        <!-- Left: Back and Cart -->
+        <div class="flex items-center gap-4">
+          <button id="back-btn" class="text-2xl text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-arrow-left rtl-icon-fix"></i>
+          </button>
+          <button id="cart-btn" class="relative text-2xl text-gray-400 hover:text-white transition-colors">
+            <i class="fas fa-shopping-cart"></i>
+            <span id="cart-count" class="absolute -top-2 -right-2.5 w-5 h-5 bg-[#58a6ff] text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-[#161b22]">0</span>
+          </button>
+        </div>
+      
+        <!-- Center: Logo -->
+        <div class="absolute left-1/2 -translate-x-1/2">
+          <svg class="w-8 h-8 text-[#58a6ff]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C10.343 2 9 3.343 9 5V7H15V5C15 3.343 13.657 2 12 2Z" fill="currentColor"/><path d="M9 8C6.239 8 4 10.239 4 13V15C4 16.657 5.343 18 7 18H9V12C9 10.343 10.343 9 12 9C13.657 9 15 10.343 15 12V18H17C18.657 18 20 16.657 20 15V13C20 10.239 17.761 8 15 8H9Z" fill="currentColor"/><path d="M11 19V22H13V19H11Z" fill="currentColor"/></svg>
+        </div>
+      
+        <!-- Right: Language Switcher -->
+        <div class="flex items-center">
+          <button id="lang-switcher" class="text-sm font-bold border border-[#30363d] rounded-full px-4 py-1.5 hover:bg-[#292e36] transition-colors"></button>
+        </div>
+      </header>
+
+
+      <!-- Main Content -->
+      <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+        <!-- Canvas Container -->
+        <div class="flex-1 flex items-center justify-center p-4 md:p-6 bg-[#0d1117] min-h-[300px] lg:order-2">
+          <div id="canvas-wrapper" class="w-full h-full max-w-full max-h-full p-2 bg-[#161b22]/50 rounded-xl shadow-inner flex items-center justify-center">
+            <canvas id="design-canvas" class="max-w-full max-h-full rounded-lg shadow-2xl cursor-grab active:cursor-grabbing bg-white"></canvas>
+          </div>
+        </div>
+
+        <!-- Controls Panel -->
+        <aside class="w-full lg:w-96 bg-[#161b22] p-5 flex flex-col gap-5 border-t lg:border-t-0 lg:border-r border-[#30363d] overflow-y-auto lg:order-1">
+          <div class="space-y-4">
+            <h3 data-lang-key="customizeText" class="text-xl font-bold"></h3>
+            <div class="control-group">
+              <label for="student-name" data-lang-key="studentName" class="label"></label>
+              <input type="text" id="student-name" data-lang-placeholder-key="studentName" class="input-field" />
+            </div>
+            <div class="control-group">
+              <label for="font-family-btn" data-lang-key="fontFamily" class="label"></label>
+              <button id="font-family-btn" class="input-field text-start font-bold text-lg"></button>
+            </div>
+            <div class="control-group">
+              <label for="font-size" data-lang-key="fontSize" class="label"></label>
+              <div class="flex items-center gap-4">
+                <input id="font-size" type="range" min="10" max="150" value="60" class="w-full" />
+                <span id="font-size-value" class="font-bold text-sm min-w-[50px] text-end">60px</span>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="font-color" data-lang-key="fontColor" class="label"></label>
+              <input id="font-color" type="color" value="#000000" class="w-full h-10 p-1 bg-[#0d1117] border border-[#30363d] rounded-lg cursor-pointer" />
+            </div>
+          </div>
+          
+          <div class="mt-auto pt-4">
+            <button id="add-to-cart-btn" class="primary-btn" disabled>
+              <i class="fas fa-cart-plus"></i>
+              <span data-lang-key="addToCart"></span>
+            </button>
+          </div>
+        </aside>
+      </main>
+    </div>
+    
+    <!-- All Modals (Initially Hidden) -->
+    <div id="info-modal" class="modal-overlay hidden">
+      <div class="modal-content w-full max-w-lg">
+        <button id="close-info-modal-btn" class="close-btn">&times;</button>
+        <h2 data-lang-key="createYourDesign" class="modal-title"></h2>
+        <div class="space-y-5">
+            <div>
+              <label class="label" data-lang-key="productType"></label>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <button data-category="sticker" class="category-btn secondary-btn p-3"><span data-lang-key="sticker"></span></button>
+                  <button data-category="notebook" class="category-btn secondary-btn p-3"><span data-lang-key="notebook"></span></button>
+                  <button data-category="lunchbox" class="category-btn secondary-btn p-3"><span data-lang-key="lunchbox"></span></button>
+                  <button data-category="wristpad" class="category-btn secondary-btn p-3"><span data-lang-key="wristpad"></span></button>
+                  <button data-category="id_tag" class="category-btn secondary-btn p-3"><span data-lang-key="id_tag"></span></button>
+              </div>
+            </div>
+          <div class="control-group">
+            <label for="info-name" data-lang-key="studentName" class="label"></label>
+            <input id="info-name" type="text" class="modal-input" data-lang-placeholder-key="studentName" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="control-group">
+                <label for="info-grade" data-lang-key="grade" class="label"></label>
+                <select id="info-grade" class="modal-input"></select>
+              </div>
+              <div class="control-group">
+                <label for="info-year" data-lang-key="year" class="label"></label>
+                <select id="info-year" class="modal-input"></select>
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer mt-8">
+          <button id="submit-info-btn" class="primary-btn" disabled>
+            <span data-lang-key="continue"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="image-gallery-modal" class="modal-overlay hidden">
+        <div class="modal-content w-full max-w-4xl relative">
+            <h2 data-lang-key="suggestionsTitle" class="modal-title"></h2>
+            <p id="gallery-user-info" class="text-center text-gray-400 -mt-4 mb-4 font-bold"></p>
+            <div id="gallery-loader" class="absolute inset-0 bg-[#161b22]/90 flex-col items-center justify-center hidden z-10 rounded-lg">
+                <div class="w-12 h-12 border-4 border-t-[#58a6ff] border-gray-600 rounded-full animate-spin"></div>
+                <p class="mt-4 text-lg font-bold" data-lang-key="generatingDesigns"></p>
+            </div>
+            <div id="image-gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto p-1"></div>
+            <div class="modal-footer flex-col sm:flex-row">
+              <button id="back-from-gallery-btn" class="secondary-btn w-full sm:w-auto"><i class="fas fa-arrow-left rtl-icon-fix"></i><span data-lang-key="back"></span></button>
+              <button id="upload-your-own-btn" class="primary-btn w-full sm:w-auto"><i class="fas fa-paint-brush"></i><span data-lang-key="uploadYourImage"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <div id="upload-modal" class="modal-overlay hidden">
+      <div class="modal-content w-full max-w-lg">
+        <h2 data-lang-key="uploadYourImage" class="modal-title"></h2>
+        <div id="image-preview-container" class="hidden w-full aspect-video border-2 border-dashed border-[#30363d] rounded-lg items-center justify-center mb-4 overflow-hidden bg-black/20">
+            <img id="image-preview" src="" alt="Image Preview" class="max-w-full max-h-full object-contain" />
+        </div>
+        <input type="file" id="image-upload-input" class="hidden" accept="image/*" />
+        <button id="upload-image-btn" class="secondary-btn w-full mb-3"><i class="fas fa-upload"></i> <span data-lang-key="selectImage"></span></button>
+        <button id="confirm-upload-btn" class="primary-btn w-full hidden"><span data-lang-key="confirmAndContinue"></span></button>
+        <div class="modal-footer">
+          <button id="back-from-upload-btn" class="secondary-btn w-full"><i class="fas fa-arrow-left rtl-icon-fix"></i><span data-lang-key="back"></span></button>
+        </div>
+      </div>
+    </div>
+
+    <div id="font-modal" class="modal-overlay hidden">
+      <div class="modal-content w-full max-w-md">
+        <h2 data-lang-key="selectFont" class="modal-title"></h2>
+        <div id="font-list" class="space-y-2 max-h-[60vh] overflow-y-auto pr-2"></div>
+      </div>
+    </div>
+
+    <div id="cart-modal" class="modal-overlay hidden">
+      <div class="modal-content w-full max-w-2xl flex flex-col h-full max-h-[85vh]">
+        <button id="close-cart-btn" class="close-btn">&times;</button>
+        <h2 data-lang-key="cartTitle" class="modal-title"></h2>
+        <p id="empty-cart-msg" data-lang-key="emptyCart" class="text-center text-gray-400 py-8"></p>
+        <div id="cart-items" class="flex-1 overflow-y-auto -mx-5 px-5 divide-y divide-[#30363d]"></div>
+        <div id="cart-footer" class="hidden mt-auto pt-4 border-t border-[#30363d]">
+          <div class="flex justify-between items-center text-lg font-bold mb-4">
+            <span data-lang-key="totalPrice"></span>
+            <span id="cart-total-price"></span>
+          </div>
+          <button id="checkout-btn" class="primary-btn bg-green-500 hover:bg-green-600 border-green-500 hover:border-green-600">
+            <i class="fab fa-whatsapp"></i>
+            <span data-lang-key="checkout"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Base classes script for programmatic use -->
+    <script>
+      const CSS_CLASSES = {
+        primaryBtn: 'w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-bold text-white bg-[#58a6ff] hover:bg-[#79c0ff] disabled:bg-gray-600 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] disabled:transform-none',
+        secondaryBtn: 'w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-bold bg-[#21262d] border border-[#30363d] hover:bg-[#292e36] hover:border-gray-500 transition-all',
+        label: 'block text-sm font-bold text-gray-400 mb-2',
+        inputField: 'w-full p-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/50 outline-none transition-all',
+        modalInput: 'w-full p-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/50 outline-none transition-all appearance-none',
+        modalOverlay: 'fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm',
+        modalContent: 'bg-[#161b22] p-6 rounded-lg shadow-2xl relative border border-[#30363d]',
+        modalTitle: 'text-2xl font-bold text-center mb-6',
+        modalFooter: 'flex flex-col-reverse sm:flex-row justify-center items-center gap-3 mt-6 pt-4 border-t border-[#30363d]',
+        closeBtn: 'absolute top-3 right-3 rtl:right-auto rtl:left-3 text-2xl text-gray-500 hover:text-white transition-colors leading-none z-10',
+      };
+
+      function applyBaseClasses(container) {
+          const scope = container || document;
+          scope.querySelectorAll('.primary-btn').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.primaryBtn} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.secondary-btn').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.secondaryBtn} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.label').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.label} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.input-field').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.inputField} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.modal-input').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalInput} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.modal-overlay').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalOverlay} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.modal-content').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalContent} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.modal-title').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalTitle} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.modal-footer').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalFooter} ${el.className}`; el.dataset.styled = true; }});
+          scope.querySelectorAll('.close-btn').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.closeBtn} ${el.className}`; el.dataset.styled = true; }});
+      }
+      
+      document.addEventListener('DOMContentLoaded', () => applyBaseClasses());
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
