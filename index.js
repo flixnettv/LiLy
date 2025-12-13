@@ -9,10 +9,11 @@ import { libraryImages } from './assets.js';
 
 const translations = {
   en: {
+    // startTitle: "What should we design today?", // Kept in HTML
     startTitle: "What should we design today?",
     startSubtitle: "Create amazing designs for your labels and products.",
     startBtn: "Design Your Label Now",
-    aiDesignerTitle: "Lily Label Designer",
+    // aiDesignerTitle: "Lily Label AI Designer", // HARDCODED IN HTML NOW
     toggleLang: 'العربية',
     createYourDesign: 'Create Your Design',
     productType: '1. Select Product Type',
@@ -21,30 +22,30 @@ const translations = {
     lunchbox: 'Lunch Box',
     wristpad: 'Wristpad',
     id_tag: 'ID for Neck & Bags',
-    customizeText: 'Customize Your Text',
-    studentName: "2. Student's Name",
-    grade: '3. Grade',
+    customizeText: 'Customize',
+    studentName: "Name",
+    grade: 'Grade',
     'grade-kg1': 'KG 1', 'grade-kg2': 'KG 2', 'grade-1': 'Grade 1', 'grade-2': 'Grade 2', 'grade-3': 'Grade 3', 'grade-4': 'Grade 4', 'grade-5': 'Grade 5', 'grade-6': 'Grade 6', 'grade-7': 'Grade 7', 'grade-8': 'Grade 8', 'grade-9': 'Grade 9', 'grade-10': 'Grade 10', 'grade-11': 'Grade 11', 'grade-12': 'Grade 12', 'grade-other': 'Other',
-    year: '4. School Year',
+    year: 'Year',
     fontFamily: 'Font',
-    fontSize: 'Font Size',
-    fontColor: 'Font Color',
+    fontSize: 'Size',
+    fontColor: 'Color',
     addToCart: 'Add to Cart',
     back: 'Back',
-    enterDetails: 'Enter Your Details',
-    continueToBackground: 'Next: Select Background',
+    enterDetails: 'Enter Details',
+    continueToBackground: 'Next',
     uploadYourImage: 'Upload Your Image',
     selectImage: 'Select Image',
-    confirmAndContinue: 'Confirm and Continue',
-    selectFont: 'Select a Font',
+    confirmAndContinue: 'Confirm',
+    selectFont: 'Select Typography',
     cartTitle: 'Your Cart',
     emptyCart: 'Your cart is empty.',
-    checkout: 'Complete Order via WhatsApp',
-    totalPrice: 'Total Price:',
+    checkout: 'Checkout via WhatsApp',
+    totalPrice: 'Total:',
     removeItem: 'Remove',
     errorPrefix: 'Oops!',
-    errorText: 'Something went wrong. Please try again.',
-    nameRequired: 'Please enter a name.',
+    errorText: 'Something went wrong.',
+    nameRequired: 'Name is required.',
     sampleText: 'Sample Text',
     whatsappMessageHeader: 'Hello Lily Label, I would like to order the following items:',
     product: 'Product',
@@ -52,16 +53,16 @@ const translations = {
     price: 'Price',
     total: 'Total',
     background: 'Background',
-    imageLibrary: 'Image Library',
-    selectBackground: 'Select a Background',
-    noImagesFound: 'No images available for this category.',
+    imageLibrary: 'Background Library',
+    selectBackground: 'Select Background',
+    noImagesFound: 'No images available.',
     loadMore: 'Load More',
   },
   ar: {
     startTitle: "ماذا سنصمم اليوم؟",
     startSubtitle: "ابتكر تصميمات رائعة لملصقاتك ومنتجاتك.",
     startBtn: "صمم ملصقك الآن",
-    aiDesignerTitle: "مصمم ليلي ليبل",
+    // aiDesignerTitle: "Lily Label AI Designer", // HARDCODED IN HTML NOW
     toggleLang: 'English',
     createYourDesign: 'أنشئ تصميمك',
     productType: '١. اختر نوع المنتج',
@@ -70,29 +71,29 @@ const translations = {
     lunchbox: 'صندوق طعام',
     wristpad: 'مسند معصم',
     id_tag: 'بطاقة تعريفية للرقبة والحقائب',
-    customizeText: 'تخصيص النص',
-    studentName: '٢. اسم الطالب',
-    grade: '٣. الصف الدراسي',
+    customizeText: 'تخصيص',
+    studentName: 'الاسم',
+    grade: 'الصف',
     'grade-kg1': 'تمهيدي أول', 'grade-kg2': 'تمهيدي ثاني', 'grade-1': 'الصف الأول', 'grade-2': 'الصف الثاني', 'grade-3': 'الصف الثالث', 'grade-4': 'الصف الرابع', 'grade-5': 'الصف الخامس', 'grade-6': 'الصف السادس', 'grade-7': 'الصف السابع', 'grade-8': 'الصف الثامن', 'grade-9': 'الصف التاسع', 'grade-10': 'الصف العاشر', 'grade-11': 'الصف الحادي عشر', 'grade-12': 'الصف الثاني عشر', 'grade-other': 'أخرى',
-    year: '٤. العام الدراسي',
+    year: 'العام الدراسي',
     fontFamily: 'الخط',
-    fontSize: 'حجم الخط',
-    fontColor: 'لون الخط',
+    fontSize: 'الحجم',
+    fontColor: 'اللون',
     addToCart: 'أضف إلى السلة',
     back: 'رجوع',
-    enterDetails: 'أدخل بياناتك',
-    continueToBackground: 'التالي: اختر الخلفية',
+    enterDetails: 'أدخل البيانات',
+    continueToBackground: 'التالي',
     uploadYourImage: 'ارفع صورة',
     selectImage: 'اختر صورة',
-    confirmAndContinue: 'تأكيد ومتابعة',
-    selectFont: 'اختر خطًا',
+    confirmAndContinue: 'تأكيد',
+    selectFont: 'اختر الخط',
     cartTitle: 'سلة التسوق',
     emptyCart: 'سلة التسوق فارغة.',
     checkout: 'إتمام الطلب عبر واتساب',
-    totalPrice: 'السعر الإجمالي:',
+    totalPrice: 'الإجمالي:',
     removeItem: 'إزالة',
     errorPrefix: 'عفوًا!',
-    errorText: 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
+    errorText: 'حدث خطأ ما.',
     nameRequired: 'الرجاء إدخال الاسم.',
     sampleText: 'نص تجريبي',
     whatsappMessageHeader: 'مرحباً ليلي ليبل، أود طلب المنتجات التالية:',
@@ -103,7 +104,7 @@ const translations = {
     background: 'الخلفية',
     imageLibrary: 'مكتبة الخلفيات',
     selectBackground: 'اختر خلفية',
-    noImagesFound: 'لا توجد صور متاحة لهذا القسم.',
+    noImagesFound: 'لا توجد صور.',
     loadMore: 'عرض المزيد',
   },
 };
@@ -125,7 +126,7 @@ const productPrices = {
   id_tag: 10,
 };
 
-const IMAGES_PER_PAGE = 6;
+const IMAGES_PER_PAGE = 8; // Increased slightly due to better layout
 
 // --- STATE MANAGEMENT --- //
 const state = {
@@ -169,6 +170,7 @@ const DOMElements = {
   checkoutBtn: document.getElementById('checkout-btn'),
   fontList: document.getElementById('font-list'),
   backBtn: document.getElementById('back-btn'),
+  backBtnMobile: document.getElementById('back-btn-mobile'),
   imageLibraryGrid: document.getElementById('image-library-grid'),
   loadMoreContainer: document.getElementById('load-more-container'),
   infoBackBtn: document.getElementById('info-back-btn'),
@@ -185,7 +187,7 @@ function addInitialTextToCanvas(canvas) {
     const textToShow = state.studentInfo.name || translations[state.lang].sampleText;
     const nameText = new fabric.Textbox(textToShow, {
         width: width > 40 ? width - 40 : width,
-        fontSize: 60,
+        fontSize: width / 10, // Dynamic font size based on width
         fill: '#000000',
         fontFamily: 'Nunito',
         textAlign: 'center',
@@ -219,7 +221,7 @@ function updateControlsFromActiveText() {
     DOMElements.fontSizeSlider.value = state.activeText.fontSize;
     DOMElements.fontSizeValue.textContent = `${Math.round(state.activeText.fontSize)}px`;
     DOMElements.fontColorInput.value = state.activeText.fill;
-    DOMElements.fontFamilyBtn.textContent = state.activeText.fontFamily;
+    DOMElements.fontFamilyBtn.innerHTML = `<span class="truncate">${state.activeText.fontFamily}</span> <i class="fas fa-chevron-down text-xs"></i>`;
     DOMElements.studentNameInput.value = state.activeText.text === translations[state.lang].sampleText ? state.studentInfo.name : state.activeText.text;
 }
 
@@ -239,25 +241,38 @@ function updateTextFromInput() {
 }
 
 function initCanvas() {
-  const container = DOMElements.canvasEl.parentElement;
-  if (!container) return;
+  const wrapper = document.getElementById('canvas-wrapper');
+  const container = wrapper.parentElement;
+  
+  if (!container || !wrapper) return;
 
-  const width = container.clientWidth;
-  if(width === 0) {
-    setTimeout(initCanvas, 100);
-    return;
+  // Calculate maximum available dimensions based on container
+  const padding = 32; // Standard padding
+  const maxWidth = container.clientWidth - padding;
+  const maxHeight = container.clientHeight - padding;
+  
+  // Determine aspect ratio
+  const aspectRatio = state.selectedProduct === 'id_tag' ? 3 / 4 : 16 / 9;
+  
+  // Calculate best fit dimensions
+  let targetWidth = maxWidth;
+  let targetHeight = maxWidth / aspectRatio;
+
+  if (targetHeight > maxHeight) {
+      targetHeight = maxHeight;
+      targetWidth = maxHeight * aspectRatio;
   }
 
-  const aspectRatio = state.selectedProduct === 'id_tag' ? 3 / 4 : 16 / 9;
-  const height = width / aspectRatio;
+  // Set wrapper size
+  wrapper.style.width = `${targetWidth}px`;
+  wrapper.style.height = `${targetHeight}px`;
 
   if (state.fabricCanvas) {
       state.fabricCanvas.dispose();
   }
 
-  DOMElements.canvasEl.width = width;
-  DOMElements.canvasEl.height = height;
-  container.style.height = `${height}px`;
+  DOMElements.canvasEl.width = targetWidth;
+  DOMElements.canvasEl.height = targetHeight;
 
   state.fabricCanvas = new fabric.Canvas(DOMElements.canvasEl, {
       preserveObjectStacking: true,
@@ -297,9 +312,8 @@ function showScreen(screenName) {
         DOMElements.startScreen.style.display = 'none';
         DOMElements.mainEditor.classList.remove('hidden');
         DOMElements.mainEditor.classList.add('flex');
-        if (!state.isCanvasInitialized) {
-            setTimeout(initCanvas, 0);
-        }
+        // Small delay to allow DOM to calculate layout
+        setTimeout(initCanvas, 50);
     } else { // 'start' screen
         DOMElements.startScreen.style.display = 'flex';
         DOMElements.mainEditor.classList.add('hidden');
@@ -317,18 +331,24 @@ function showScreen(screenName) {
 function showModal(modal) {
     modal.classList.remove('hidden');
     modal.classList.add('flex', 'animate-fade-in');
-    modal.firstElementChild.classList.add('animate-scale-in');
+    if(modal.firstElementChild) {
+        modal.firstElementChild.classList.add('animate-scale-in');
+    }
 }
 
 function hideModal(modal) {
-    modal.firstElementChild.classList.remove('animate-scale-in');
-    modal.firstElementChild.classList.add('animate-scale-out');
+    if(modal.firstElementChild) {
+        modal.firstElementChild.classList.remove('animate-scale-in');
+        modal.firstElementChild.classList.add('animate-scale-out');
+    }
     modal.classList.remove('animate-fade-in');
     modal.classList.add('animate-fade-out');
     setTimeout(() => {
         modal.classList.add('hidden');
         modal.classList.remove('flex', 'animate-fade-out');
-        modal.firstElementChild.classList.remove('animate-scale-out');
+        if(modal.firstElementChild) {
+            modal.firstElementChild.classList.remove('animate-scale-out');
+        }
     }, 300);
 }
 
@@ -370,9 +390,6 @@ function handleImageSelection(imageUrl) {
             setTimeout(setupBg, 50); // wait for canvas init
             return;
         }
-        // This is the corrected image loading call.
-        // The `crossOrigin` property has been removed, which fixes the loading
-        // issue for Base64 data URIs.
         fabric.util.loadImage(imageUrl, (imgEl) => {
             if (imgEl) {
                 const img = new fabric.Image(imgEl);
@@ -389,7 +406,7 @@ function handleImageSelection(imageUrl) {
 
 function populateFontModal() {
     DOMElements.fontList.innerHTML = fonts.map(font => `
-        <button class="w-full text-left p-3 rounded-lg hover:bg-[#292e36] transition-colors text-xl" style="font-family: ${font.style};" data-font-family="${font.style}" data-font-name="${font.name}">
+        <button class="w-full text-left p-3 rounded-lg hover:bg-white/10 transition-colors text-lg border border-white/5 mb-2" style="font-family: ${font.style};" data-font-family="${font.style}" data-font-name="${font.name}">
             ${font.name}
         </button>
     `).join('');
@@ -398,7 +415,7 @@ function populateFontModal() {
             const fontFamily = button.dataset.fontFamily;
             if (state.activeText && fontFamily) {
                 state.activeText.set('fontFamily', fontFamily);
-                DOMElements.fontFamilyBtn.textContent = button.dataset.fontName;
+                DOMElements.fontFamilyBtn.innerHTML = `<span class="truncate">${button.dataset.fontName}</span> <i class="fas fa-chevron-down text-xs"></i>`;
                 state.fabricCanvas.requestRenderAll();
             }
             hideModal(DOMElements.fontModal);
@@ -420,7 +437,7 @@ function loadMoreImages() {
     }
 
     // Append new skeletons
-    const skeletonsHtml = pageImages.map((_, i) => `<div id="skeleton-${startIndex + i}" class="skeleton aspect-video"></div>`).join('');
+    const skeletonsHtml = pageImages.map((_, i) => `<div id="skeleton-${startIndex + i}" class="skeleton aspect-square rounded-xl"></div>`).join('');
     DOMElements.imageLibraryGrid.insertAdjacentHTML('beforeend', skeletonsHtml);
     
     // Load images and replace skeletons
@@ -429,15 +446,23 @@ function loadMoreImages() {
         const imageEl = new Image();
         imageEl.src = img.url;
         imageEl.alt = img.name;
-        imageEl.className = "w-full h-full object-cover";
+        imageEl.className = "w-full h-full object-cover transition-transform duration-500 hover:scale-110";
         imageEl.loading = "lazy";
 
         imageEl.onload = () => {
             const skeleton = document.getElementById(`skeleton-${index}`);
             if (skeleton) {
                 const container = document.createElement('div');
-                container.className = "aspect-video rounded-lg overflow-hidden cursor-pointer transform hover:scale-105 transition-transform shadow-lg border-2 border-transparent hover:border-[#58a6ff]";
+                container.className = "aspect-square rounded-xl overflow-hidden cursor-pointer shadow-lg border-2 border-transparent hover:border-blue-400 relative group";
+                
+                // Overlay for better UX
+                const overlay = document.createElement('div');
+                overlay.className = "absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center";
+                overlay.innerHTML = '<i class="fas fa-check-circle text-white text-3xl"></i>';
+                
                 container.appendChild(imageEl);
+                container.appendChild(overlay);
+                
                 container.addEventListener('click', () => handleImageSelection(img.url));
                 skeleton.replaceWith(container);
             }
@@ -446,7 +471,7 @@ function loadMoreImages() {
         imageEl.onerror = () => {
             const skeleton = document.getElementById(`skeleton-${index}`);
             if (skeleton) {
-                skeleton.innerHTML = `<div class="w-full h-full flex flex-col items-center justify-center text-red-400 text-xs p-2 text-center"><i class="fas fa-exclamation-triangle mb-1"></i> Image failed</div>`;
+                skeleton.innerHTML = `<div class="w-full h-full flex flex-col items-center justify-center text-red-400 text-xs p-2 text-center bg-white/5 rounded-xl"><i class="fas fa-exclamation-triangle mb-1"></i> Error</div>`;
                 skeleton.classList.remove('skeleton');
             }
         };
@@ -457,7 +482,7 @@ function loadMoreImages() {
     if (endIndex < images.length) {
         const loadMoreBtn = document.createElement('button');
         loadMoreBtn.id = 'load-more-btn';
-        loadMoreBtn.className = 'secondary-btn px-6 py-2 bg-[#292e36] hover:bg-[#374151] rounded-lg transition-colors';
+        loadMoreBtn.className = 'px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors text-sm font-bold';
         loadMoreBtn.innerHTML = `${translations[state.lang].loadMore} <i class="fas fa-chevron-down ml-2"></i>`;
         loadMoreBtn.onclick = () => {
             state.imageLibraryPage++;
@@ -492,18 +517,16 @@ function updateCartView() {
     } else {
         DOMElements.emptyCartMsg.style.display = 'none';
         DOMElements.cartItemsContainer.innerHTML = state.cart.map((item, index) => `
-            <div class="flex items-center gap-4 p-4">
-                <img src="${item.preview}" alt="Product Preview" class="w-24 h-auto rounded-md object-cover bg-gray-700"/>
-                <div class="flex-1">
-                    <p class="font-bold text-lg">${translations[state.lang][item.product] || item.product}</p>
-                    <p class="text-sm text-gray-400">${item.name}</p>
+            <div class="flex items-center gap-4 p-4 bg-white/5 rounded-xl border border-white/5">
+                <img src="${item.preview}" alt="Product Preview" class="w-20 h-20 rounded-lg object-cover bg-black/20"/>
+                <div class="flex-1 min-w-0">
+                    <p class="font-bold text-base truncate">${translations[state.lang][item.product] || item.product}</p>
+                    <p class="text-sm text-gray-400 truncate">${item.name}</p>
+                    <p class="text-green-400 font-bold mt-1">${productPrices[item.product]} AED</p>
                 </div>
-                <div class="text-right">
-                    <p class="font-bold text-lg">${productPrices[item.product]} AED</p>
-                    <button class="remove-item-btn text-red-500 hover:text-red-400 text-sm" data-index="${index}">
-                      <i class="fas fa-trash-alt"></i> ${translations[state.lang].removeItem}
-                    </button>
-                </div>
+                <button class="remove-item-btn text-red-400 hover:text-red-300 w-8 h-8 flex items-center justify-center rounded-full bg-red-500/10 hover:bg-red-500/20 transition-colors" data-index="${index}">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
             </div>
         `).join('');
         const totalPrice = state.cart.reduce((total, item) => total + productPrices[item.product], 0);
@@ -575,7 +598,6 @@ function showError(message) {
 function handleInfoSubmit() {
     const name = DOMElements.infoNameInput.value.trim();
     if (!state.selectedProduct) {
-        // This can be improved with a more user-friendly message
         showError("Please select a product type.");
         return;
     }
@@ -598,7 +620,6 @@ function setupEventListeners() {
         state.lang = state.lang === 'en' ? 'ar' : 'en';
         updateTranslations();
         populateYearAndGradeDropdowns();
-        // If canvas text is sample text, update it
         if(state.activeText && state.activeText.text === translations[state.lang === 'en' ? 'ar' : 'en'].sampleText){
             state.activeText.set('text', translations[state.lang].sampleText);
             state.fabricCanvas.requestRenderAll();
@@ -632,10 +653,12 @@ function setupEventListeners() {
       showModal(DOMElements.infoModal);
     });
 
-
     // Editor controls
     DOMElements.backBtn.addEventListener('click', () => showScreen('start'));
+    if (DOMElements.backBtnMobile) DOMElements.backBtnMobile.addEventListener('click', () => showScreen('start'));
+    
     DOMElements.studentNameInput.addEventListener('input', updateTextFromInput);
+    
     DOMElements.fontSizeSlider.addEventListener('input', (e) => {
         const size = e.target.value;
         if (state.activeText) {
@@ -644,12 +667,14 @@ function setupEventListeners() {
         }
         DOMElements.fontSizeValue.textContent = `${size}px`;
     });
+    
     DOMElements.fontColorInput.addEventListener('input', (e) => {
         if (state.activeText) {
             state.activeText.set('fill', e.target.value);
             state.fabricCanvas.requestRenderAll();
         }
     });
+    
     DOMElements.fontFamilyBtn.addEventListener('click', () => showModal(DOMElements.fontModal));
     DOMElements.addToCartBtn.addEventListener('click', addToCart);
 

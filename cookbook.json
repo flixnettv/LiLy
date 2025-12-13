@@ -1,4 +1,16 @@
 {
+  "technical_constitution": {
+    "platform": "Cloudflare Pages",
+    "language": "Standard JavaScript (ESM) - NO TypeScript",
+    "build_system": "Vite -> ./dist",
+    "deployment": "Wrangler (targets ./dist)",
+    "critical_rules": [
+      "NEVER create or revert to .ts/.tsx files.",
+      "ALWAYS maintain 'wrangler.json' assets directory as './dist'.",
+      "ALWAYS keep logic in 'index.js' and data/assets in 'assets.js'.",
+      "Ensure 'vite.config.js' always builds to 'dist' with 'emptyOutDir: true'."
+    ]
+  },
   "//": "The core application flow is now a guided, step-by-step process:",
   "flow": [
     "1. User clicks 'Start Designing Now' on the start screen.",
