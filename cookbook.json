@@ -1,1 +1,10 @@
-{}
+{
+  "//": "The core application flow is now a guided, step-by-step process:",
+  "flow": [
+    "1. User clicks 'Start Designing Now' on the start screen.",
+    "2. An information modal appears where the user selects a product category and enters their details (name, grade, year).",
+    "3. Upon submitting the info, an image library modal opens, showing backgrounds filtered by the chosen product category.",
+    "4. The user selects a background image from the library.",
+    "5. The user is taken to the main editor screen, with the selected background and their name pre-applied to the canvas for final customization."
+  ]
+}

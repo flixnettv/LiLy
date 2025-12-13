@@ -27,11 +27,14 @@
         opacity: 0;
         transition: opacity 0.3s ease, transform 0.3s ease;
       }
+      .category-btn:not(.active):hover {
+        transform: scale(1.05);
+      }
       .category-btn.active {
         background-color: #58a6ff !important;
         border-color: #79c0ff !important;
         color: white !important;
-        transform: translateY(-4px);
+        transform: translateY(-4px) scale(1.08);
         box-shadow: 0 4px 10px rgba(88, 166, 255, 0.3);
       }
       
@@ -53,234 +56,188 @@
       .animate-scale-in { animation: scaleIn 0.3s ease forwards; }
       .animate-fade-out { animation: fadeOut 0.3s ease forwards; }
       .animate-scale-out { animation: scaleOut 0.3s ease forwards; }
-
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.20.0"
-  }
-}
-</script>
-</head>
-  <body class="bg-[#0d1117] text-[#c9d1d9] h-screen overflow-hidden antialiased">
-    
-    <!-- Start Screen -->
-    <div id="start-screen" class="flex flex-col items-center justify-center h-full text-center p-8 bg-[radial-gradient(circle,#1a2233_0%,#0d1117_70%)]">
-      <div class="max-w-xl">
-        <div class="flex items-center justify-center gap-3 mb-4">
-          <svg class="w-12 h-12 text-[#58a6ff]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C10.343 2 9 3.343 9 5V7H15V5C15 3.343 13.657 2 12 2Z" fill="currentColor"/>
-            <path d="M9 8C6.239 8 4 10.239 4 13V15C4 16.657 5.343 18 7 18H9V12C9 10.343 10.343 9 12 9C13.657 9 15 10.343 15 12V18H17C18.657 18 20 16.657 20 15V13C20 10.239 17.761 8 15 8H9Z" fill="currentColor"/>
-            <path d="M11 19V22H13V19H11Z" fill="currentColor"/>
-          </svg>
-          <h1 class="text-5xl font-black text-white">Lily Label</h1>
-        </div>
-        <h2 data-lang-key="startTitle" class="text-4xl font-extrabold mb-2 text-white/90"></h2>
-        <p data-lang-key="startSubtitle" class="text-lg text-gray-400 mb-8"></p>
-        <button id="start-design-btn" data-lang-key="startBtn" class="primary-btn text-lg px-8 py-3"></button>
-      </div>
-    </div>
+    <link rel="stylesheet" href="index.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+  </head>
 
-    <!-- Main Editor -->
-    <div id="main-editor" class="h-full flex-col hidden">
-      <!-- Header -->
-      <header class="flex items-center justify-between p-3 px-4 sm:px-6 bg-[#161b22] border-b border-[#30363d] shadow-md z-10 relative">
-        <!-- Left: Back and Cart -->
-        <div class="flex items-center gap-4">
-          <button id="back-btn" class="text-2xl text-gray-400 hover:text-white transition-colors">
-            <i class="fas fa-arrow-left rtl-icon-fix"></i>
-          </button>
-          <button id="cart-btn" class="relative text-2xl text-gray-400 hover:text-white transition-colors">
-            <i class="fas fa-shopping-cart"></i>
-            <span id="cart-count" class="absolute -top-2 -right-2.5 w-5 h-5 bg-[#58a6ff] text-white text-xs font-bold rounded-full flex items-center justify-center border-2 border-[#161b22]">0</span>
-          </button>
-        </div>
-      
-        <!-- Center: Logo -->
-        <div class="absolute left-1/2 -translate-x-1/2">
-          <svg class="w-8 h-8 text-[#58a6ff]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C10.343 2 9 3.343 9 5V7H15V5C15 3.343 13.657 2 12 2Z" fill="currentColor"/><path d="M9 8C6.239 8 4 10.239 4 13V15C4 16.657 5.343 18 7 18H9V12C9 10.343 10.343 9 12 9C13.657 9 15 10.343 15 12V18H17C18.657 18 20 16.657 20 15V13C20 10.239 17.761 8 15 8H9Z" fill="currentColor"/><path d="M11 19V22H13V19H11Z" fill="currentColor"/></svg>
-        </div>
-      
-        <!-- Right: Language Switcher -->
-        <div class="flex items-center">
-          <button id="lang-switcher" class="text-sm font-bold border border-[#30363d] rounded-full px-4 py-1.5 hover:bg-[#292e36] transition-colors"></button>
-        </div>
-      </header>
+  <body class="bg-[#121820] text-white overflow-x-hidden antialiased">
 
-
-      <!-- Main Content -->
-      <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
-        <!-- Canvas Container -->
-        <div class="flex-1 flex items-center justify-center p-4 md:p-6 bg-[#0d1117] min-h-[300px] lg:order-2">
-          <div id="canvas-wrapper" class="w-full h-full max-w-full max-h-full p-2 bg-[#161b22]/50 rounded-xl shadow-inner flex items-center justify-center">
-            <canvas id="design-canvas" class="max-w-full max-h-full rounded-lg shadow-2xl cursor-grab active:cursor-grabbing bg-white"></canvas>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 bg-[#121820]/80 backdrop-blur-sm shadow-md z-40">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          <div class="flex items-center">
+            <img src="https://i.ibb.co/pnv14dF/logo.png" alt="Lily Label Logo" class="h-12 w-auto">
+            <h1 class="text-2xl font-black ml-3" data-lang-key="aiDesignerTitle">Lily Label AI Designer</h1>
           </div>
-        </div>
-
-        <!-- Controls Panel -->
-        <aside class="w-full lg:w-96 bg-[#161b22] p-5 flex flex-col gap-5 border-t lg:border-t-0 lg:border-r border-[#30363d] overflow-y-auto lg:order-1">
-          <div class="space-y-4">
-            <h3 data-lang-key="customizeText" class="text-xl font-bold"></h3>
-            <div class="control-group">
-              <label for="student-name" data-lang-key="studentName" class="label"></label>
-              <input type="text" id="student-name" data-lang-placeholder-key="studentName" class="input-field" />
-            </div>
-            <div class="control-group">
-              <label for="font-family-btn" data-lang-key="fontFamily" class="label"></label>
-              <button id="font-family-btn" class="input-field text-start font-bold text-lg"></button>
-            </div>
-            <div class="control-group">
-              <label for="font-size" data-lang-key="fontSize" class="label"></label>
-              <div class="flex items-center gap-4">
-                <input id="font-size" type="range" min="10" max="150" value="60" class="w-full" />
-                <span id="font-size-value" class="font-bold text-sm min-w-[50px] text-end">60px</span>
-              </div>
-            </div>
-            <div class="control-group">
-              <label for="font-color" data-lang-key="fontColor" class="label"></label>
-              <input id="font-color" type="color" value="#000000" class="w-full h-10 p-1 bg-[#0d1117] border border-[#30363d] rounded-lg cursor-pointer" />
-            </div>
-          </div>
-          
-          <div class="mt-auto pt-4">
-            <button id="add-to-cart-btn" class="primary-btn" disabled>
-              <i class="fas fa-cart-plus"></i>
-              <span data-lang-key="addToCart"></span>
+          <div class="flex items-center gap-4">
+            <button id="lang-switcher" class="text-gray-300 hover:text-white transition-colors font-semibold"></button>
+            <button id="cart-btn" class="relative text-2xl text-gray-300 hover:text-white transition-colors">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
             </button>
           </div>
-        </aside>
-      </main>
+        </div>
+      </div>
+    </header>
+
+    <main class="pt-20">
+      <!-- Start Screen -->
+      <div id="start-screen" class="min-h-[calc(100vh-80px)] container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-center text-center">
+        <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight" data-lang-key="startTitle">What should we design today?</h2>
+        <p class="mt-4 max-w-2xl text-lg sm:text-xl text-gray-400" data-lang-key="startSubtitle">Create amazing designs for your labels and products.</p>
+        <button id="start-design-btn" class="primary-btn mt-8 text-lg sm:text-xl px-8 py-4 bg-[#58a6ff] hover:bg-[#79c0ff] text-black font-bold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-[#58a6ff]/20" data-lang-key="startBtn">
+          Design Your Label Now <i class="fas fa-arrow-right ml-2 rtl-icon-fix"></i>
+        </button>
+      </div>
+
+      <!-- Main Editor -->
+      <div id="main-editor" class="hidden min-h-[calc(100vh-80px)] container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 w-full">
+          <!-- Canvas -->
+          <div class="lg:col-span-2 bg-[#1a202c] p-4 rounded-xl shadow-2xl flex items-center justify-center">
+             <div class="w-full h-auto relative">
+                <canvas id="design-canvas"></canvas>
+            </div>
+          </div>
+          <!-- Controls -->
+          <div class="bg-[#1a202c] p-6 rounded-xl shadow-2xl flex flex-col gap-6">
+            <div class="flex justify-between items-center">
+              <h2 class="text-2xl font-bold" data-lang-key="customizeText">Customize Your Text</h2>
+              <button id="back-btn" class="secondary-btn text-sm" data-lang-key="back"><i class="fas fa-chevron-left mr-1 rtl-icon-fix"></i> Back</button>
+            </div>
+            
+            <div class="space-y-4">
+              <div>
+                <label for="student-name" class="block text-sm font-medium text-gray-300 mb-2" data-lang-key="studentName">Student's Name</label>
+                <input type="text" id="student-name" class="w-full bg-[#292e36] border border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-[#58a6ff] focus:border-[#58a6ff] transition" data-lang-placeholder-key="studentName">
+              </div>
+
+              <div>
+                <label for="font-family-btn" class="block text-sm font-medium text-gray-300 mb-2" data-lang-key="fontFamily">Font</label>
+                <button id="font-family-btn" class="w-full bg-[#292e36] border border-gray-600 rounded-lg p-3 text-left focus:ring-2 focus:ring-[#58a6ff] focus:border-[#58a6ff] transition flex justify-between items-center">
+                  <span>Nunito</span> <i class="fas fa-chevron-down"></i>
+                </button>
+              </div>
+
+              <div>
+                <label for="font-size" class="block text-sm font-medium text-gray-300 mb-2" data-lang-key="fontSize">Font Size</label>
+                <div class="flex items-center gap-4">
+                  <input type="range" id="font-size" min="10" max="150" value="60" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer">
+                  <span id="font-size-value" class="text-sm font-mono bg-[#292e36] py-1 px-3 rounded-md">60px</span>
+                </div>
+              </div>
+
+              <div>
+                <label for="font-color" class="block text-sm font-medium text-gray-300 mb-2" data-lang-key="fontColor">Font Color</label>
+                <input type="color" id="font-color" value="#000000" class="w-full h-12 p-1 bg-[#292e36] border border-gray-600 rounded-lg cursor-pointer">
+              </div>
+            </div>
+
+            <div class="mt-auto">
+              <button id="add-to-cart-btn" class="primary-btn w-full text-lg py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-500 disabled:cursor-not-allowed font-bold rounded-lg transition-colors" data-lang-key="addToCart">
+                <i class="fas fa-cart-plus mr-2"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modals -->
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center p-4">
+        <div class="bg-[#1a202c] rounded-2xl shadow-xl w-full max-w-2xl p-6 md:p-8 space-y-6 relative">
+            <button id="info-back-btn" class="absolute top-4 left-4 text-gray-400 hover:text-white transition-colors text-2xl"><i class="fas fa-arrow-left rtl-icon-fix"></i></button>
+            <button id="close-info-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors text-2xl"><i class="fas fa-times"></i></button>
+            <h2 class="text-2xl md:text-3xl font-bold text-center" data-lang-key="enterDetails">Enter Your Details</h2>
+            
+            <!-- Product Type -->
+            <div>
+              <p class="font-semibold mb-3 text-lg" data-lang-key="productType">1. Select Product Type</p>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+                  <button class="category-btn flex flex-col items-center p-3 md:p-4 bg-[#292e36] rounded-lg border-2 border-gray-600 hover:border-[#79c0ff] transition-all" data-category="sticker"><i class="fas fa-book text-2xl mb-2 text-[#87CEEB]"></i><span data-lang-key="sticker"></span></button>
+                  <button class="category-btn flex flex-col items-center p-3 md:p-4 bg-[#292e36] rounded-lg border-2 border-gray-600 hover:border-[#79c0ff] transition-all" data-category="notebook"><i class="fas fa-book-open text-2xl mb-2 text-[#F08080]"></i><span data-lang-key="notebook"></span></button>
+                  <button class="category-btn flex flex-col items-center p-3 md:p-4 bg-[#292e36] rounded-lg border-2 border-gray-600 hover:border-[#79c0ff] transition-all" data-category="lunchbox"><i class="fas fa-utensils text-2xl mb-2 text-[#90EE90]"></i><span data-lang-key="lunchbox"></span></button>
+                  <button class="category-btn flex flex-col items-center p-3 md:p-4 bg-[#292e36] rounded-lg border-2 border-gray-600 hover:border-[#79c0ff] transition-all" data-category="wristpad"><i class="fas fa-mouse text-2xl mb-2 text-[#DDA0DD]"></i><span data-lang-key="wristpad"></span></button>
+                  <button class="category-btn flex flex-col items-center p-3 md:p-4 bg-[#292e36] rounded-lg border-2 border-gray-600 hover:border-[#79c0ff] transition-all" data-category="id_tag"><i class="fas fa-id-card text-2xl mb-2 text-[#FFD700]"></i><span data-lang-key="id_tag"></span></button>
+              </div>
+            </div>
+
+            <!-- Student Info -->
+             <div class="grid sm:grid-cols-1 gap-4">
+              <div>
+                <label for="info-name" class="block text-sm font-medium text-gray-300 mb-2" data-lang-key="studentName">2. Student's Name</label>
+                <input type="text" id="info-name" class="w-full bg-[#292e36] border border-gray-600 rounded-lg p-3" data-lang-placeholder-key="nameRequired">
+              </div>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <div>
+                <label for="info-grade" class="block text-sm font-medium text-gray-300 mb-2" data-lang-key="grade">3. Grade</label>
+                <select id="info-grade" class="w-full bg-[#292e36] border border-gray-600 rounded-lg p-3"></select>
+              </div>
+              <div>
+                <label for="info-year" class="block text-sm font-medium text-gray-300 mb-2" data-lang-key="year">4. School Year</label>
+                <select id="info-year" class="w-full bg-[#292e36] border border-gray-600 rounded-lg p-3"></select>
+              </div>
+            </div>
+
+            <button id="submit-info-btn" class="primary-btn w-full text-lg py-3 bg-[#58a6ff] hover:bg-[#79c0ff] disabled:bg-gray-500 disabled:cursor-not-allowed text-black font-bold rounded-lg transition-colors" data-lang-key="continueToBackground">Continue <i class="fas fa-arrow-right ml-2 rtl-icon-fix"></i></button>
+        </div>
     </div>
     
-    <!-- All Modals (Initially Hidden) -->
-    <div id="info-modal" class="modal-overlay hidden">
-      <div class="modal-content w-full max-w-lg">
-        <button id="close-info-modal-btn" class="close-btn">&times;</button>
-        <h2 data-lang-key="createYourDesign" class="modal-title"></h2>
-        <div class="space-y-5">
-            <div>
-              <label class="label" data-lang-key="productType"></label>
-              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  <button data-category="sticker" class="category-btn secondary-btn p-3"><span data-lang-key="sticker"></span></button>
-                  <button data-category="notebook" class="category-btn secondary-btn p-3"><span data-lang-key="notebook"></span></button>
-                  <button data-category="lunchbox" class="category-btn secondary-btn p-3"><span data-lang-key="lunchbox"></span></button>
-                  <button data-category="wristpad" class="category-btn secondary-btn p-3"><span data-lang-key="wristpad"></span></button>
-                  <button data-category="id_tag" class="category-btn secondary-btn p-3"><span data-lang-key="id_tag"></span></button>
-              </div>
+    <!-- Image Library Modal -->
+    <div id="image-library-modal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center p-4">
+        <div class="bg-[#1a202c] rounded-2xl shadow-xl w-full max-w-4xl p-6 md:p-8 flex flex-col" style="height: 90vh;">
+            <div class="flex-shrink-0 flex justify-between items-center mb-4">
+                <div class="flex items-center gap-4">
+                  <button id="library-back-btn" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fas fa-arrow-left rtl-icon-fix"></i></button>
+                  <h2 class="text-2xl md:text-3xl font-bold" data-lang-key="imageLibrary">Image Library</h2>
+                </div>
+                <button id="close-library-modal-btn" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fas fa-times"></i></button>
             </div>
-          <div class="control-group">
-            <label for="info-name" data-lang-key="studentName" class="label"></label>
-            <input id="info-name" type="text" class="modal-input" data-lang-placeholder-key="studentName" />
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="control-group">
-                <label for="info-grade" data-lang-key="grade" class="label"></label>
-                <select id="info-grade" class="modal-input"></select>
-              </div>
-              <div class="control-group">
-                <label for="info-year" data-lang-key="year" class="label"></label>
-                <select id="info-year" class="modal-input"></select>
-              </div>
-          </div>
-        </div>
-        <div class="modal-footer mt-8">
-          <button id="submit-info-btn" class="primary-btn" disabled>
-            <span data-lang-key="continue"></span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="image-gallery-modal" class="modal-overlay hidden">
-        <div class="modal-content w-full max-w-4xl relative">
-            <h2 data-lang-key="suggestionsTitle" class="modal-title"></h2>
-            <p id="gallery-user-info" class="text-center text-gray-400 -mt-4 mb-4 font-bold"></p>
-            <div id="gallery-loader" class="absolute inset-0 bg-[#161b22]/90 flex-col items-center justify-center hidden z-10 rounded-lg">
-                <div class="w-12 h-12 border-4 border-t-[#58a6ff] border-gray-600 rounded-full animate-spin"></div>
-                <p class="mt-4 text-lg font-bold" data-lang-key="generatingDesigns"></p>
-            </div>
-            <div id="image-gallery-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-h-[60vh] overflow-y-auto p-1"></div>
-            <div class="modal-footer flex-col sm:flex-row">
-              <button id="back-from-gallery-btn" class="secondary-btn w-full sm:w-auto"><i class="fas fa-arrow-left rtl-icon-fix"></i><span data-lang-key="back"></span></button>
-              <button id="upload-your-own-btn" class="primary-btn w-full sm:w-auto"><i class="fas fa-paint-brush"></i><span data-lang-key="uploadYourImage"></span></button>
+            <div class="flex-grow overflow-y-auto pr-2">
+                <div id="image-library-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                    <!-- Images will be injected here -->
+                </div>
+                <div id="load-more-container" class="mt-6 text-center"></div>
             </div>
         </div>
     </div>
 
-    <div id="upload-modal" class="modal-overlay hidden">
-      <div class="modal-content w-full max-w-lg">
-        <h2 data-lang-key="uploadYourImage" class="modal-title"></h2>
-        <div id="image-preview-container" class="hidden w-full aspect-video border-2 border-dashed border-[#30363d] rounded-lg items-center justify-center mb-4 overflow-hidden bg-black/20">
-            <img id="image-preview" src="" alt="Image Preview" class="max-w-full max-h-full object-contain" />
-        </div>
-        <input type="file" id="image-upload-input" class="hidden" accept="image/*" />
-        <button id="upload-image-btn" class="secondary-btn w-full mb-3"><i class="fas fa-upload"></i> <span data-lang-key="selectImage"></span></button>
-        <button id="confirm-upload-btn" class="primary-btn w-full hidden"><span data-lang-key="confirmAndContinue"></span></button>
-        <div class="modal-footer">
-          <button id="back-from-upload-btn" class="secondary-btn w-full"><i class="fas fa-arrow-left rtl-icon-fix"></i><span data-lang-key="back"></span></button>
-        </div>
+
+    <!-- Font Selection Modal -->
+    <div id="font-modal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center p-4">
+      <div class="bg-[#1a202c] rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+        <h2 class="text-2xl font-bold" data-lang-key="selectFont">Select a Font</h2>
+        <div id="font-list" class="max-h-80 overflow-y-auto space-y-2"></div>
       </div>
     </div>
 
-    <div id="font-modal" class="modal-overlay hidden">
-      <div class="modal-content w-full max-w-md">
-        <h2 data-lang-key="selectFont" class="modal-title"></h2>
-        <div id="font-list" class="space-y-2 max-h-[60vh] overflow-y-auto pr-2"></div>
-      </div>
-    </div>
-
-    <div id="cart-modal" class="modal-overlay hidden">
-      <div class="modal-content w-full max-w-2xl flex flex-col h-full max-h-[85vh]">
-        <button id="close-cart-btn" class="close-btn">&times;</button>
-        <h2 data-lang-key="cartTitle" class="modal-title"></h2>
-        <p id="empty-cart-msg" data-lang-key="emptyCart" class="text-center text-gray-400 py-8"></p>
-        <div id="cart-items" class="flex-1 overflow-y-auto -mx-5 px-5 divide-y divide-[#30363d]"></div>
-        <div id="cart-footer" class="hidden mt-auto pt-4 border-t border-[#30363d]">
-          <div class="flex justify-between items-center text-lg font-bold mb-4">
-            <span data-lang-key="totalPrice"></span>
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 z-50 items-center justify-center p-4">
+      <div class="bg-[#1a202c] rounded-2xl shadow-xl w-full max-w-2xl p-6 flex flex-col" style="height: 90vh; max-height: 700px;">
+        <div class="flex-shrink-0 flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold" data-lang-key="cartTitle">Your Cart</h2>
+          <button id="close-cart-btn" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="empty-cart-msg" class="flex-grow flex flex-col items-center justify-center text-gray-400">
+            <i class="fas fa-shopping-cart text-5xl mb-4"></i>
+            <p data-lang-key="emptyCart">Your cart is empty.</p>
+        </div>
+        <div id="cart-items" class="flex-grow overflow-y-auto divide-y divide-gray-700"></div>
+        <div id="cart-footer" class="flex-shrink-0 mt-6 hidden">
+          <div class="flex justify-between items-center text-xl font-bold mb-4">
+            <span data-lang-key="totalPrice">Total Price:</span>
             <span id="cart-total-price"></span>
           </div>
-          <button id="checkout-btn" class="primary-btn bg-green-500 hover:bg-green-600 border-green-500 hover:border-green-600">
-            <i class="fab fa-whatsapp"></i>
-            <span data-lang-key="checkout"></span>
-          </button>
+          <button id="checkout-btn" class="primary-btn w-full py-3 bg-green-600 hover:bg-green-700 font-bold rounded-lg transition-colors" data-lang-key="checkout">Complete Order via WhatsApp <i class="fab fa-whatsapp ml-2"></i></button>
         </div>
       </div>
     </div>
-
-    <!-- Base classes script for programmatic use -->
-    <script>
-      const CSS_CLASSES = {
-        primaryBtn: 'w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-bold text-white bg-[#58a6ff] hover:bg-[#79c0ff] disabled:bg-gray-600 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] disabled:transform-none',
-        secondaryBtn: 'w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-bold bg-[#21262d] border border-[#30363d] hover:bg-[#292e36] hover:border-gray-500 transition-all',
-        label: 'block text-sm font-bold text-gray-400 mb-2',
-        inputField: 'w-full p-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/50 outline-none transition-all',
-        modalInput: 'w-full p-2.5 bg-[#0d1117] border border-[#30363d] rounded-lg focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/50 outline-none transition-all appearance-none',
-        modalOverlay: 'fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 backdrop-blur-sm',
-        modalContent: 'bg-[#161b22] p-6 rounded-lg shadow-2xl relative border border-[#30363d]',
-        modalTitle: 'text-2xl font-bold text-center mb-6',
-        modalFooter: 'flex flex-col-reverse sm:flex-row justify-center items-center gap-3 mt-6 pt-4 border-t border-[#30363d]',
-        closeBtn: 'absolute top-3 right-3 rtl:right-auto rtl:left-3 text-2xl text-gray-500 hover:text-white transition-colors leading-none z-10',
-      };
-
-      function applyBaseClasses(container) {
-          const scope = container || document;
-          scope.querySelectorAll('.primary-btn').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.primaryBtn} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.secondary-btn').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.secondaryBtn} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.label').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.label} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.input-field').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.inputField} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.modal-input').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalInput} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.modal-overlay').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalOverlay} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.modal-content').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalContent} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.modal-title').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalTitle} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.modal-footer').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.modalFooter} ${el.className}`; el.dataset.styled = true; }});
-          scope.querySelectorAll('.close-btn').forEach(el => { if(!el.dataset.styled) { el.className = `${CSS_CLASSES.closeBtn} ${el.className}`; el.dataset.styled = true; }});
-      }
-      
-      document.addEventListener('DOMContentLoaded', () => applyBaseClasses());
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-    <script type="module" src="/index.tsx"></script>
+    
+    <script type="module" src="index.js"></script>
   </body>
 </html>

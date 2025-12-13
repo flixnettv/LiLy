@@ -1,10 +1,11 @@
+
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
 
 // --- CONFIGURATION & CONSTANTS --- //
-import { libraryImages } from './assets.ts';
+import { libraryImages } from './assets.js';
 
 const translations = {
   en: {
@@ -127,17 +128,7 @@ const productPrices = {
 const IMAGES_PER_PAGE = 6;
 
 // --- STATE MANAGEMENT --- //
-const state: {
-  lang: 'en' | 'ar';
-  currentScreen: string;
-  selectedProduct: string | null;
-  studentInfo: { name: string; grade: string; year: string; };
-  cart: any[];
-  fabricCanvas: any | null;
-  activeText: any | null;
-  isCanvasInitialized: boolean;
-  imageLibraryPage: number;
-} = {
+const state = {
   lang: 'ar',
   currentScreen: 'start',
   selectedProduct: null,
@@ -151,42 +142,41 @@ const state: {
 
 // --- DOM ELEMENTS --- //
 const DOMElements = {
-  startScreen: document.getElementById('start-screen') as HTMLElement,
-  mainEditor: document.getElementById('main-editor') as HTMLElement,
-  infoModal: document.getElementById('info-modal') as HTMLElement,
-  fontModal: document.getElementById('font-modal') as HTMLElement,
-  cartModal: document.getElementById('cart-modal') as HTMLElement,
-  imageLibraryModal: document.getElementById('image-library-modal') as HTMLElement,
-  canvasEl: document.getElementById('design-canvas') as HTMLCanvasElement,
-  langSwitcher: document.getElementById('lang-switcher') as HTMLElement,
-  studentNameInput: document.getElementById('student-name') as HTMLInputElement,
-  fontSizeSlider: document.getElementById('font-size') as HTMLInputElement,
-  fontSizeValue: document.getElementById('font-size-value') as HTMLElement,
-  fontColorInput: document.getElementById('font-color') as HTMLInputElement,
-  fontFamilyBtn: document.getElementById('font-family-btn') as HTMLButtonElement,
-  addToCartBtn: document.getElementById('add-to-cart-btn') as HTMLButtonElement,
-  infoNameInput: document.getElementById('info-name') as HTMLInputElement,
-  infoGradeSelect: document.getElementById('info-grade') as HTMLSelectElement,
-  infoYearSelect: document.getElementById('info-year') as HTMLSelectElement,
-  submitInfoBtn: document.getElementById('submit-info-btn') as HTMLButtonElement,
-  cartBtn: document.getElementById('cart-btn') as HTMLButtonElement,
-  cartCount: document.getElementById('cart-count') as HTMLElement,
-  cartItemsContainer: document.getElementById('cart-items') as HTMLElement,
-  cartFooter: document.getElementById('cart-footer') as HTMLElement,
-  cartTotalPrice: document.getElementById('cart-total-price') as HTMLElement,
-  emptyCartMsg: document.getElementById('empty-cart-msg') as HTMLElement,
-  checkoutBtn: document.getElementById('checkout-btn') as HTMLButtonElement,
-  fontList: document.getElementById('font-list') as HTMLElement,
-  backBtn: document.getElementById('back-btn') as HTMLButtonElement,
-  imageLibraryGrid: document.getElementById('image-library-grid') as HTMLElement,
-  loadMoreContainer: document.getElementById('load-more-container') as HTMLElement,
-  infoBackBtn: document.getElementById('info-back-btn') as HTMLButtonElement,
-  libraryBackBtn: document.getElementById('library-back-btn') as HTMLButtonElement,
-  closeLibraryModalBtn: document.getElementById('close-library-modal-btn') as HTMLButtonElement,
+  startScreen: document.getElementById('start-screen'),
+  mainEditor: document.getElementById('main-editor'),
+  infoModal: document.getElementById('info-modal'),
+  fontModal: document.getElementById('font-modal'),
+  cartModal: document.getElementById('cart-modal'),
+  imageLibraryModal: document.getElementById('image-library-modal'),
+  canvasEl: document.getElementById('design-canvas'),
+  langSwitcher: document.getElementById('lang-switcher'),
+  studentNameInput: document.getElementById('student-name'),
+  fontSizeSlider: document.getElementById('font-size'),
+  fontSizeValue: document.getElementById('font-size-value'),
+  fontColorInput: document.getElementById('font-color'),
+  fontFamilyBtn: document.getElementById('font-family-btn'),
+  addToCartBtn: document.getElementById('add-to-cart-btn'),
+  infoNameInput: document.getElementById('info-name'),
+  infoGradeSelect: document.getElementById('info-grade'),
+  infoYearSelect: document.getElementById('info-year'),
+  submitInfoBtn: document.getElementById('submit-info-btn'),
+  cartBtn: document.getElementById('cart-btn'),
+  cartCount: document.getElementById('cart-count'),
+  cartItemsContainer: document.getElementById('cart-items'),
+  cartFooter: document.getElementById('cart-footer'),
+  cartTotalPrice: document.getElementById('cart-total-price'),
+  emptyCartMsg: document.getElementById('empty-cart-msg'),
+  checkoutBtn: document.getElementById('checkout-btn'),
+  fontList: document.getElementById('font-list'),
+  backBtn: document.getElementById('back-btn'),
+  imageLibraryGrid: document.getElementById('image-library-grid'),
+  loadMoreContainer: document.getElementById('load-more-container'),
+  infoBackBtn: document.getElementById('info-back-btn'),
+  libraryBackBtn: document.getElementById('library-back-btn'),
+  closeLibraryModalBtn: document.getElementById('close-library-modal-btn'),
 };
 
 // --- FABRIC.JS SETUP --- //
-// @ts-ignore
 const fabric = window.fabric;
 
 function addInitialTextToCanvas(canvas) {
@@ -354,7 +344,7 @@ function updateTranslations() {
     document.querySelectorAll('[data-lang-placeholder-key]').forEach(el => {
         const key = el.getAttribute('data-lang-placeholder-key');
         if (translations[state.lang][key]) {
-            (el as HTMLInputElement).placeholder = translations[state.lang][key];
+            el.placeholder = translations[state.lang][key];
         }
     });
     DOMElements.langSwitcher.textContent = translations[state.lang].toggleLang;
@@ -418,7 +408,6 @@ function populateFontModal() {
 
 function loadMoreImages() {
     const category = state.selectedProduct;
-    // @ts-ignore
     const images = libraryImages[category] || [];
 
     const startIndex = (state.imageLibraryPage - 1) * IMAGES_PER_PAGE;
@@ -521,7 +510,7 @@ function updateCartView() {
         DOMElements.cartTotalPrice.textContent = `${totalPrice} AED`;
         DOMElements.cartFooter.classList.remove('hidden');
         document.querySelectorAll('.remove-item-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => removeFromCart(parseInt((e.currentTarget as HTMLElement).dataset.index, 10)));
+            btn.addEventListener('click', (e) => removeFromCart(parseInt(e.currentTarget.dataset.index, 10)));
         });
     }
 }
@@ -648,7 +637,7 @@ function setupEventListeners() {
     DOMElements.backBtn.addEventListener('click', () => showScreen('start'));
     DOMElements.studentNameInput.addEventListener('input', updateTextFromInput);
     DOMElements.fontSizeSlider.addEventListener('input', (e) => {
-        const size = (e.target as HTMLInputElement).value;
+        const size = e.target.value;
         if (state.activeText) {
             state.activeText.set('fontSize', parseInt(size, 10));
             state.fabricCanvas.requestRenderAll();
@@ -657,7 +646,7 @@ function setupEventListeners() {
     });
     DOMElements.fontColorInput.addEventListener('input', (e) => {
         if (state.activeText) {
-            state.activeText.set('fill', (e.target as HTMLInputElement).value);
+            state.activeText.set('fill', e.target.value);
             state.fabricCanvas.requestRenderAll();
         }
     });
